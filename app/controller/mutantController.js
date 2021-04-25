@@ -2,10 +2,12 @@ import { StatusCodes } from 'http-status-codes';
 
 import { DTO, Validator } from '../../common';
 import { Service } from '../../core';
+import { Model } from '../../domain';
 
-const { MutantDTO: { dnaValidatorResponse }, HandledErrorResponse } = DTO;
+const { MutantDTO: { dnaValidatorResponse }, HandledErrorResponse, DnaValidationsModel } = DTO;
 const { MutantValidator: { dnaInput } } = Validator;
 const { MutantService: { isMutant } } = Service;
+const { DnaValidationModel: { insertDnaValidation } } = Model;
 
 const validateDna = async (req, res) => {
   const { body } = req;
@@ -25,6 +27,7 @@ const validateDna = async (req, res) => {
     const mutantFlag = isMutant(dna.map((dnaFragment) => dnaFragment.split('')));
     status = mutantFlag ? StatusCodes.OK : StatusCodes.FORBIDDEN;
     response = dnaValidatorResponse(mutantFlag);
+    insertDnaValidation(DnaValidationsModel(mutantFlag, dna));
   }
 
   res.status(status).json(response);

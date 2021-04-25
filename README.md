@@ -29,7 +29,17 @@ npm start
 
 ## Environment variables
 ```
-PORT = 3000
+PORT=3000
+QUERY_LOGS=true
+DB_CLIENT=postgresql
+DB_HOST=localhost
+DB_MIGRATION_TABLE=knex_migrations
+DB_NAME=dna_validations
+DB_PASSWORD=dna-password
+DB_PORT=5432
+DB_USERNAME=dna-username
+DEFAULT_DB_MAX_POOL=10
+DEFAULT_DB_MIN_POOL=2
 ```
 
 ## Authors

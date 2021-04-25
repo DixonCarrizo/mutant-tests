@@ -1,4 +1,5 @@
 const HEALTH = '/health';
-const MUTANT_VALIDATOR = '/mutant';
+const MUTANT = '/mutant';
+const STATS = '/stats';
 
-export default { HEALTH, MUTANT_VALIDATOR };
+export default { HEALTH, MUTANT, STATS };
