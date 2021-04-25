@@ -1,20 +1,6 @@
-/* eslint-disable no-console */
-// Diagonal Mutan
-// const adn = ['ATGCGA', 'CAGTGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'];
-// Next Mutant
-// const adn = ['TTGCGA', 'CAGTGC', 'TTATGT', 'AGAAGG', 'CCCCTA', 'TCACTG'];
-// Down Mutant
-// const adn = ['TTGCGA', 'CAGTGC', 'TTATGT', 'AGAAGG', 'ACCCTA', 'TCACTG'];
-// Human
-const adn = ['TTGCGA', 'CAGTGC', 'TTATGT', 'AGAATG', 'ACCCTA', 'TCACTG'];
-const sequenceLength = 4;
-const validationTypes = {
-  DIAGONAL: 'DIAGONAL',
-  NEXT: 'NEXT',
-  DOWN: 'DOWN',
-};
+import { Constant } from '../../common';
 
-const mappedAdn = adn.map((s) => s.split(''));
+const { Mutant: { SEQUENCE_LENGTH, VALIDATION_TYPES } } = Constant;
 
 const getMatrixPositionValue = (row, column, matrix) => (matrix[row] ? matrix[row][column] : '');
 
@@ -25,14 +11,14 @@ const getValidationRowAndColumns = (row, column, validationType) => {
   };
 
   switch (validationType) {
-    case validationTypes.DIAGONAL:
+    case VALIDATION_TYPES.DIAGONAL:
       rowAndColumns.row += 1;
       rowAndColumns.column += 1;
       break;
-    case validationTypes.NEXT:
+    case VALIDATION_TYPES.NEXT:
       rowAndColumns.column += 1;
       break;
-    case validationTypes.DOWN:
+    case VALIDATION_TYPES.DOWN:
       rowAndColumns.row += 1;
       break;
     default:
@@ -50,7 +36,7 @@ const genValidator = (gen, row, column, matrix, validationType, accumulations = 
 
   if (gen === nextGen) {
     const totalAcumulations = accumulations + 1;
-    if (totalAcumulations >= sequenceLength) {
+    if (totalAcumulations >= SEQUENCE_LENGTH) {
       return true;
     }
 
@@ -65,21 +51,21 @@ const validateGen = (row, dnaSegment, matrix) => {
 
   for (let column = 0; column < dnaSegment.length; column++) {
     const gen = getMatrixPositionValue(row, column, matrix);
-    const evaluationFactor = dnaSegment.length - sequenceLength;
+    const evaluationFactor = dnaSegment.length - SEQUENCE_LENGTH;
     if (evaluationFactor < 1) {
       break;
     }
-    const diagonalMutant = genValidator(gen, row, column, matrix, validationTypes.DIAGONAL);
+    const diagonalMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.DIAGONAL);
     if (diagonalMutant) {
       mutantFlag = true;
       break;
     }
-    const nextMutant = genValidator(gen, row, column, matrix, validationTypes.NEXT);
+    const nextMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.NEXT);
     if (nextMutant) {
       mutantFlag = true;
       break;
     }
-    const downMutant = genValidator(gen, row, column, matrix, validationTypes.DOWN);
+    const downMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.DOWN);
     if (downMutant) {
       mutantFlag = true;
       break;
@@ -93,7 +79,7 @@ const isMutant = (dnaSequence) => {
   let mutanFlag = false;
   for (let row = 0; row < dnaSequence.length; row++) {
     const dnaSegment = dnaSequence[row];
-    const evaluationFactor = dnaSegment.length - sequenceLength;
+    const evaluationFactor = dnaSegment.length - SEQUENCE_LENGTH;
     mutanFlag = validateGen(row, dnaSegment, dnaSequence);
     if (mutanFlag || evaluationFactor < 1) {
       break;
@@ -103,6 +89,4 @@ const isMutant = (dnaSequence) => {
   return mutanFlag;
 };
 
-console.log(Date.now());
-console.log(isMutant(mappedAdn));
-console.log(Date.now());
+export default { isMutant };

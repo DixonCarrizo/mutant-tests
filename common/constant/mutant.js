@@ -1,0 +1,8 @@
+const SEQUENCE_LENGTH = 4;
+const VALIDATION_TYPES = {
+  DIAGONAL: 'DIAGONAL',
+  NEXT: 'NEXT',
+  DOWN: 'DOWN',
+};
+
+export default { SEQUENCE_LENGTH, VALIDATION_TYPES };
