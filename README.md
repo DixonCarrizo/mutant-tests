@@ -4,7 +4,7 @@
 ![Service version](https://img.shields.io/badge/Version-v0.0.1-informational)
 
 ## Service description
-This is a proposal to validate **DNA** sequences and detect if the sample belongs to a **human** or a **mutant**.
+This is a proposal to validate **DNA** sequences and detect if the sample belongs to a human **non-mutant** or a human **mutant**.
 
 ### How do I get set up? ###
 
@@ -24,7 +24,7 @@ npm start
 
 `GET /health` Check if service is OK
 
-`POST /mutant/validator` Validates **DNA** sequence
+`POST /mutant` Validates **DNA** sequence
 
 
 ## Environment variables

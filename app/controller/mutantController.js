@@ -10,7 +10,7 @@ const { MutantService: { isMutant } } = Service;
 const validateDna = async (req, res) => {
   const { body } = req;
   let response;
-  let status = StatusCodes.OK;
+  let status;
   const { error } = dnaInput.validate(body, { allowUnknown: true, abortEarly: false });
 
   if (error) {
@@ -23,6 +23,7 @@ const validateDna = async (req, res) => {
   } else {
     const { dna } = body;
     const mutantFlag = isMutant(dna.map((dnaFragment) => dnaFragment.split('')));
+    status = mutantFlag ? StatusCodes.OK : StatusCodes.FORBIDDEN;
     response = dnaValidatorResponse(mutantFlag);
   }
 

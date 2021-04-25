@@ -48,6 +48,7 @@ const genValidator = (gen, row, column, matrix, validationType, accumulations = 
 
 const validateGen = (row, dnaSegment, matrix) => {
   let mutantFlag = false;
+  let foundSequances = 0;
 
   for (let column = 0; column < dnaSegment.length; column++) {
     const gen = getMatrixPositionValue(row, column, matrix);
@@ -57,16 +58,18 @@ const validateGen = (row, dnaSegment, matrix) => {
     }
     const diagonalMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.DIAGONAL);
     if (diagonalMutant) {
-      mutantFlag = true;
-      break;
+      foundSequances += 1;
     }
     const nextMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.NEXT);
     if (nextMutant) {
-      mutantFlag = true;
-      break;
+      foundSequances += 1;
     }
     const downMutant = genValidator(gen, row, column, matrix, VALIDATION_TYPES.DOWN);
     if (downMutant) {
+      foundSequances += 1;
+    }
+
+    if (foundSequances > 1) {
       mutantFlag = true;
       break;
     }
