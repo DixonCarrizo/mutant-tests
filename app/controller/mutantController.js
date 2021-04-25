@@ -4,10 +4,10 @@ import { DTO, Validator } from '../../common';
 import { Service } from '../../core';
 import { Model } from '../../domain';
 
-const { MutantDTO: { dnaValidatorResponse }, HandledErrorResponse, DnaValidationsModel } = DTO;
+const { MutantDTO: { dnaValidatorResponse, dnaValidationStats }, HandledErrorResponse, DnaValidationsModel } = DTO;
 const { MutantValidator: { dnaInput } } = Validator;
 const { MutantService: { isMutant } } = Service;
-const { DnaValidationModel: { insertDnaValidation } } = Model;
+const { DnaValidationModel: { insertDnaValidation, getValidationStats } } = Model;
 
 const validateDna = async (req, res) => {
   const { body } = req;
@@ -33,4 +33,10 @@ const validateDna = async (req, res) => {
   res.status(status).json(response);
 };
 
-export default { validateDna };
+const validationStats = async (_, res) => {
+  const response = await getValidationStats();
+
+  res.json(dnaValidationStats(response));
+};
+
+export default { validateDna, validationStats };

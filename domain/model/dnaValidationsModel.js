@@ -12,12 +12,11 @@ const insertDnaValidation = (data) => db(MODEL)
   .insert(data)
   .then(([item]) => item);
 
-// const hola = () => {
-//   db(MODEL).select().groupBy('is_mutant');
-// };
+const getValidationStats = () => db(MODEL).select('is_mutant', db.raw('count(id)')).groupBy('is_mutant');
 
 export default {
   findDnaValidation,
   insertDnaValidation,
+  getValidationStats,
 };
 
